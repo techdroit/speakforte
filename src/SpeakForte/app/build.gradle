@@ -1,0 +1,42 @@
+// Add Android-specific build tasks
+apply plugin: 'com.android.application'
+
+// Configure Android specific build options
+android {
+    // Specify the target SDK version for the build
+    compileSdkVersion 25
+    // The version of the build tools to use.
+    buildToolsVersion "26.0.1"
+    // Core settings and entries. Overrides manifest settings!
+    defaultConfig {
+        applicationId "com.speakforte"
+        minSdkVersion 23
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    // Controls how app is built and packaged.
+    buildTypes {
+        // Another common option is debug, which is not signed by default.
+        release {
+            // Code shrinker. Turn this on for production along with shrinkResources
+            minifyEnabled false
+            //Use ProGuard, a Java optimizer.
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+// This is the part you are most likely to change as you start using other libraries.
+dependencies {
+    // Local binary dependency. Include any JAR file inside app/libs.
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // Remote binary dependency. Specify Maven coordinates of the support
+    // Library needed. Use the SDK Manager to download and install such packages
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    // Configuration for unit tests.
+    testCompile 'junit:junit:4.12'
+}
